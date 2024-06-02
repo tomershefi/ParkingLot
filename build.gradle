@@ -30,6 +30,14 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.parkingLot.ParkingLotApplication'
+        )
+    }
+}
+
 tasks.named('test') {
     useJUnitPlatform()
 }
