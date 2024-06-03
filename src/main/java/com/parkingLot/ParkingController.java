@@ -17,7 +17,7 @@ public class ParkingController {
     }
 
     @PostMapping("exit")
-    public Ticket exit(@RequestParam Long ticketId) {
+    public Ticket exit(@RequestParam long ticketId) {
         return parkingService.exitParking(ticketId);
     }
 }
