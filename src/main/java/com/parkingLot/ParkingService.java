@@ -26,20 +26,6 @@ public class ParkingService {
         ));
     }
 
-    public static double calculateCost(LocalDateTime entryTime, LocalDateTime exitTime) {
-        // Calculate the duration between entry and exit times
-        Duration duration = Duration.between(entryTime, exitTime);
-
-        // Get the total minutes of the duration
-        long totalMinutes = duration.toMinutes();
-
-        // Calculate the cost based on 10 dollars per hour and 2.5 dollars per 15 minutes
-        double cost = ((double) totalMinutes / 60) * RATE_PER_HOUR; // Full hours cost
-        cost += ((double) (totalMinutes % 60) / 15) * 2.5; // Remaining 15-minute intervals cost
-
-        return cost;
-    }
-
     public Ticket exitParking(Long ticketId) {
         Ticket ticket = repository.findById(ticketId);
         if (Objects.nonNull(ticket)) {
@@ -53,5 +39,19 @@ public class ParkingService {
             ));
         }
         return null;
+    }
+
+    public static double calculateCost(LocalDateTime entryTime, LocalDateTime exitTime) {
+        // Calculate the duration between entry and exit times
+        Duration duration = Duration.between(entryTime, exitTime);
+
+        // Get the total minutes of the duration
+        long totalMinutes = duration.toMinutes();
+
+        // Calculate the cost based on 10 dollars per hour and 2.5 dollars per 15 minutes
+        double cost = (double) (totalMinutes / 60) * RATE_PER_HOUR; // Full hours cost
+        cost += (double) ((totalMinutes % 60) / 15) * 2.5; // Remaining 15-minute intervals cost
+
+        return cost;
     }
 }
