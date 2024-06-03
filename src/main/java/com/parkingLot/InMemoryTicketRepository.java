@@ -26,7 +26,7 @@ public class InMemoryTicketRepository {
         return value;
     }
 
-    public Ticket findById(long ticketId) {
+    public Ticket findById(Long ticketId) {
         return tickets.get(ticketId);
     }
 

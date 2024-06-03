@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Service
 public class ParkingService {
@@ -25,9 +26,9 @@ public class ParkingService {
         ));
     }
 
-    public Ticket exitParking(long ticketId) {
+    public Ticket exitParking(Long ticketId) {
         Ticket ticket = repository.findById(ticketId);
-        if (ticket != null) {
+        if (Objects.nonNull(ticket)) {
             return repository.update(new Ticket(
                     ticket.ticketId(),
                     ticket.plate(),
