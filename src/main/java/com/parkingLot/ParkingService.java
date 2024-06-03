@@ -1,4 +1,3 @@
-// ParkingService.java
 package com.parkingLot;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,23 +15,28 @@ public class ParkingService {
     private InMemoryTicketRepository repository;
 
     public Ticket enterParking(String plate, String parkingLot) {
-        Ticket ticket = new Ticket();
-        ticket.setPlate(plate);
-        ticket.setParkingLot(parkingLot);
-        ticket.setEntryTime(LocalDateTime.now());
-        ticket = repository.save(ticket);
-        return ticket;
+        return repository.save(new Ticket(
+                null,
+                plate,
+                parkingLot,
+                LocalDateTime.now(),
+                null,
+                0
+        ));
     }
 
-    public Ticket exitParking(Long ticketId) {
+    public Ticket exitParking(long ticketId) {
         Ticket ticket = repository.findById(ticketId);
         if (ticket != null) {
-            ticket.setExitTime(LocalDateTime.now());
-            Duration duration = Duration.between(ticket.getEntryTime(), ticket.getExitTime());
-            double hours = duration.toMinutes() / 60.0;
-            ticket.setCharge(Math.ceil(hours) * RATE_PER_HOUR);
-            repository.update(ticket);
+            return repository.update(new Ticket(
+                    ticket.ticketId(),
+                    ticket.plate(),
+                    ticket.parkingLot(),
+                    ticket.entryTime(),
+                    LocalDateTime.now(),
+                    Duration.between(ticket.entryTime(), ticket.exitTime()).toHours() * RATE_PER_HOUR
+            ));
         }
-        return ticket;
+        return null;
     }
 }

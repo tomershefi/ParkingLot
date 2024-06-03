@@ -1,4 +1,3 @@
-// ParkingLotApplication.java
 package com.parkingLot;
 
 import org.springframework.boot.SpringApplication;
